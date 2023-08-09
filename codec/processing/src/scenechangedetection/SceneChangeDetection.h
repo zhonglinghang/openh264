@@ -175,6 +175,7 @@ class CSceneChangeDetectorScreen : public CSceneChangeDetectorVideo {
         int32_t iSad = m_pfSad (pCurTmp, sLocalParam.iCurStride, pRefTmp, sLocalParam.iRefStride);
         if (iSad == 0) {
           uiBlockIdcTmp = COLLOCATED_STATIC;
+          m_sParam.iStaticBlockNum ++;
         } else if (bScrollDetectFlag && (!iScrollMvX || !iScrollMvY) && (iBlockPointX + iScrollMvX >= 0)
                    && (iBlockPointX + iScrollMvX <= iWidth - 8) &&
                    (iBlockPointY + iScrollMvY >= 0) && (iBlockPointY + iScrollMvY <= iHeight - 8)) {
@@ -231,6 +232,7 @@ class CSceneChangeDetection : public IStrategy {
     int32_t iSceneChangeThresholdMedium = WelsStaticCast (int32_t,
                                           m_cDetector.GetSceneChangeMotionRatioMedium() * iBlock8x8Num + 0.5f + PESN);
 
+    m_sSceneChangeParam.iStaticBlockNum = 0;
     m_sSceneChangeParam.iMotionBlockNum = 0;
     m_sSceneChangeParam.iFrameComplexity = 0;
     m_sSceneChangeParam.eSceneChangeIdc = SIMILAR_SCENE;

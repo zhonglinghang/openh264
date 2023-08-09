@@ -367,6 +367,8 @@ int ParseConfig (CReadConfig& cRdCfg, SSourcePicture* pSrcPic, SEncParamExt& pSv
         else if (ctrl_flag < 0)
           ctrl_flag = 0;
         pSvcParam.bPrefixNalAddingCtrl = ctrl_flag ? true : false;
+      } else if (strTag[0].compare ("EnableStaticFrameSkip") == 0) {
+        pSvcParam.bEnableStaticFrameSkip = atoi(strTag[1].c_str()) ? true : false;
       }
     }
   }
@@ -672,6 +674,10 @@ int ParseCommandLine (int argc, char** argv, SSourcePicture* pSrcPic, SEncParamE
       unsigned int iLayer = atoi (argv[n++]);
       SSpatialLayerConfig* pDLayer = &pSvcParam.sSpatialLayers[iLayer];
       pDLayer->sSliceArgument.uiSliceMbNum[0] = atoi (argv[n++]);
+    } 
+    
+    else if (!strcmp (pCommand, "-sfs") && (n < argc)) {
+      pSvcParam.bEnableStaticFrameSkip = atoi(argv[n++]) ? true : false;
     }
   }
   return 0;
@@ -747,7 +753,8 @@ int FillSpecificParameters (SEncParamExt& sParam) {
       fMaxFr = sParam.sSpatialLayers[i].fFrameRate;
   }
   sParam.fMaxFrameRate = fMaxFr;
-
+  sParam.bEnableStaticFrameSkip = true; // static frame skipping
+  
   return 0;
 }
 

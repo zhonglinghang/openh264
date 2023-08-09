@@ -179,6 +179,7 @@ typedef struct TagWelsSvcCodingParam: SEncParamExt {
     param.uiMaxNalSize = 0;
     param.bIsLosslessLink = false;
     param.bFixRCOverShoot = true;
+    param.bEnableStaticFrameSkip = true; // static frame skipping
     param.iIdrBitrateRatio = IDR_BITRATE_RATIO * 100;
     for (int32_t iLayer = 0; iLayer < MAX_SPATIAL_LAYER_NUM; iLayer++) {
       param.sSpatialLayers[iLayer].uiProfileIdc = PRO_UNKNOWN;
@@ -338,6 +339,7 @@ typedef struct TagWelsSvcCodingParam: SEncParamExt {
 
     /* Frame skipping */
     bEnableFrameSkip           = pCodingParam.bEnableFrameSkip ? true : false;
+    bEnableStaticFrameSkip     = pCodingParam.bEnableStaticFrameSkip ? true : false;
 
     /* Enable int32_t term reference */
     bEnableLongTermReference   = pCodingParam.bEnableLongTermReference ? true : false;

@@ -71,7 +71,9 @@ typedef enum {
   videoFrameTypeI,          ///< I frame type
   videoFrameTypeP,          ///< P frame type
   videoFrameTypeSkip,       ///< skip the frame based encoder kernel
-  videoFrameTypeIPMixed     ///< a frame where I and P slices are mixing, not supported yet
+  videoFrameTypeB,          
+  videoFrameTypeIPMixed,     ///< a frame where I and P slices are mixing, not supported yet
+  videoFrameTypeBREF         /// bref
 } EVideoFrameType;
 
 /**

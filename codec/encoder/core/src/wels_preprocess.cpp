@@ -242,6 +242,7 @@ int32_t CWelsPreProcess::BuildSpatialPicList (sWelsEncCtx* pCtx, const SSourcePi
     return -1;
 
   pCtx->pVaa->bSceneChangeFlag = pCtx->pVaa->bIdrPeriodFlag = false;
+  pCtx->pVaa->bSceneSameFlag = false;
 
   iSpatialNum = SingleLayerPreprocess (pCtx, kpSrcPic, &m_sScaledPicture);
 
@@ -1129,6 +1130,8 @@ ESceneChangeIdc CWelsPreProcessScreen::DetectSceneChange (SPicture* pCurPicture,
   SLogContext* pLogCtx = & (pCtx->sLogCtx);
   const int32_t iNegligibleMotionBlocks = (static_cast<int32_t> ((pCurPicture->iWidthInPixel >> 3) *
                                           (pCurPicture->iHeightInPixel >> 3) * STATIC_SCENE_MOTION_RATIO));
+  const int32_t iBlocksSum = ((pCurPicture->iWidthInPixel >> 3) * (pCurPicture->iHeightInPixel >> 3));
+  bool bSameFrm = false;
   const uint8_t iCurTid = GetTemporalLevel (&pSvcParam->sDependencyLayers[m_pEncCtx->sSpatialIndexMap[0].iDid],
                           pParamInternal->iCodingIndex, pSvcParam->uiGopSize);
   if (iCurTid == INVALID_TEMPORAL_ID) {
@@ -1190,6 +1193,7 @@ ESceneChangeIdc CWelsPreProcessScreen::DetectSceneChange (SPicture* pCurPicture,
       const int64_t iFrameComplexity = sSceneChangeResult.iFrameComplexity;
       const int32_t iSceneDetectIdc = sSceneChangeResult.eSceneChangeIdc;
       const int32_t iMotionBlockNum = sSceneChangeResult.iMotionBlockNum;
+      const int32_t iStaticBlockNum = sSceneChangeResult.iStaticBlockNum;
 
       const bool bCurRefIsSceneLtr = pRefPic->bIsSceneLTR;
       const int32_t iRefPicAvQP = pRefPic->iFrameAverageQp;
@@ -1211,6 +1215,7 @@ ESceneChangeIdc CWelsPreProcessScreen::DetectSceneChange (SPicture* pCurPicture,
       }
 
       if (iMotionBlockNum <= iNegligibleMotionBlocks) {
+        bSameFrm = iStaticBlockNum >= iBlocksSum;
         break;
       }
     }
@@ -1230,6 +1235,7 @@ ESceneChangeIdc CWelsPreProcessScreen::DetectSceneChange (SPicture* pCurPicture,
   SaveBestRefToVaa (sLtrSaved, & (pVaaExt->sVaaStrBestRefCandidate[0]));
   pVaaExt->iVaaBestRefFrameNum = sLtrSaved.pRefPicture->iFrameNum;
   pVaaExt->pVaaBestBlockStaticIdc = sLtrSaved.pBestBlockStaticIdc;
+  pVaaExt->bSceneSameFlag = bSameFrm;
 
   if (0 < iAvailableSceneRefNum) {
     SaveBestRefToVaa (sSceneLtrSaved, & (pVaaExt->sVaaLtrBestRefCandidate[0]));

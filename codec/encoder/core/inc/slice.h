@@ -88,6 +88,8 @@ typedef struct TagRCSlicing {
   int32_t   iEndMbSlice;
   int32_t   iTotalQpSlice;
   int32_t   iTotalMbSlice;
+  int32_t   iTotalQpSliceIncSkip;
+  int32_t   iTotalMbSliceIncSkip;
   int32_t   iTargetBitsSlice;
   int32_t   iBsPosSlice;
   int32_t   iFrameBitsSlice;

@@ -192,6 +192,7 @@ int32_t*   pGomCost;
 
 int32_t   bEnableGomQp;
 int32_t   iAverageFrameQp;
+int32_t   iAverageFrameQpIncSkip;
 int32_t   iMinFrameQp;
 int32_t   iMaxFrameQp;
 int32_t   iNumberMbFrame;

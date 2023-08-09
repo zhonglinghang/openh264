@@ -592,6 +592,7 @@ typedef struct TagEncParamExt {
   bool    bIsLosslessLink;             ///< LTR advanced setting
   bool    bFixRCOverShoot;             ///< fix rate control overshooting
   int     iIdrBitrateRatio;            ///< the target bits of IDR is (idr_bitrate_ratio/100) * average target bit per frame.
+  bool    bEnableStaticFrameSkip;      ///< True: skip the frame which is the same as the previous one
 } SEncParamExt;
 
 /**

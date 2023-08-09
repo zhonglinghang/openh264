@@ -163,6 +163,7 @@ typedef struct {
 typedef struct {
   ESceneChangeIdc eSceneChangeIdc; // SIMILAR_SCENE, MEDIUM_CHANGED_SCENE, LARGE_CHANGED_SCENE
   int             iMotionBlockNum; // Number of motion blocks
+  int             iStaticBlockNum; // Number of static blocks
   long long       iFrameComplexity; // frame complexity
   unsigned char* pStaticBlockIdc;   // static block idc
   SScrollDetectionParam sScrollResult; //results from scroll detection

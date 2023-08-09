@@ -100,6 +100,7 @@ typedef struct TagVAAFrameInfo {
 
   ESceneChangeIdc eSceneChangeIdc;
   bool          bSceneChangeFlag;
+  bool          bSceneSameFlag;
   bool          bIdrPeriodFlag;
 } SVAAFrameInfo;
 
